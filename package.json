@@ -1,0 +1,21 @@
+{
+  "name": "openmusic-api-consumer",
+  "version": "1.0.0",
+  "description": "Consumer Open Music API",
+  "license": "ISC",
+  "author": "sonypiay",
+  "type": "module",
+  "main": "./src/Listener.js",
+  "scripts": {
+    "consumer:email": "dotenv -- node ./listeners/Listener.js --class=EmailListener --max-retry=3 --retry-delay=5000",
+    "consumer:dlq": "dotenv -- node ./listeners/Listener.js --class=DeadLetterListener --max-retry=3 --retry-delay=5000",
+    "start": "npm run consumer:email"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "dotenv": "^17.2.1",
+    "nodemailer": "^7.0.6",
+    "pg": "^8.16.3",
+    "sanitize-html": "^2.17.0"
+  }
+}
