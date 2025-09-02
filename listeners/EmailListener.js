@@ -5,8 +5,8 @@ import PlaylistsSongRepository from "../repositories/PlaylistsSongRepository.js"
 
 class EmailListener {
     constructor() {
+        this.playlistsSongRepository = new PlaylistsSongRepository;
         this.consumerService = new ConsumerService();
-        this.mailer = new Mailer();
         this.deadQueue = 'dlq';
         this.retryCount = 0;
 
@@ -58,22 +58,23 @@ class EmailListener {
 
         try {
             const emailContent = `<p>Halo <strong>${data.email}</strong>,</p> <p>Playlist <strong>${data.name}</strong> telah diexport ke email anda.</p>`;
-            const playlistsSongRepository = new PlaylistsSongRepository;
             const contentPlaylist = JSON.stringify({
-                id: data.id,
+                id: data.playlistId,
                 name: data.name,
-                songs: await playlistsSongRepository.getByPlaylistId(data.playlistId),
+                songs: await this.playlistsSongRepository.getByPlaylistId(data.playlistId),
             });
 
-            this.mailer.setSubject(`Playlist ${data.name}`);
-            this.mailer.setContent(emailContent);
-            this.mailer.setRecipient(data.email);
-            this.mailer.setAttachments({
+            const mailer = new Mailer;
+
+            mailer.setSubject(`Playlist ${data.name}`);
+            mailer.setContent(emailContent);
+            mailer.setRecipient(data.email);
+            mailer.setAttachments({
                 filename: data.file,
                 content: contentPlaylist,
             });
 
-            await this.mailer.send();
+            await mailer.send();
         } catch (error) {
             console.error(`There was an error while sending email: ${error.message}`);
 
