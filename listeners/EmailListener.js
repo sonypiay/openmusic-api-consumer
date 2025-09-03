@@ -59,9 +59,11 @@ class EmailListener {
         try {
             const emailContent = `<p>Halo <strong>${data.email}</strong>,</p> <p>Playlist <strong>${data.name}</strong> telah diexport ke email anda.</p>`;
             const contentPlaylist = JSON.stringify({
-                id: data.playlistId,
-                name: data.name,
-                songs: await this.playlistsSongRepository.getByPlaylistId(data.playlistId),
+                playlist: {
+                    id: data.playlistId,
+                    name: data.name,
+                    songs: await this.playlistsSongRepository.getByPlaylistId(data.playlistId),
+                },
             });
 
             const mailer = new Mailer;
