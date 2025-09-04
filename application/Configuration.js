@@ -1,6 +1,6 @@
 export default {
     rabbitmq: {
-        url: process.env.RABBITMQ_URL,
+        url: process.env.RABBITMQ_SERVER ?? 'amqp://localhost:5672/',
         timeout: 5000,
     },
     smtp: {
