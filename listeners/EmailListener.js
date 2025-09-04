@@ -64,7 +64,7 @@ class EmailListener {
                     name: data.name,
                     songs: await this.playlistsSongRepository.getByPlaylistId(data.playlistId),
                 },
-            });
+            }, null, 2);
 
             const mailer = new Mailer;
 
