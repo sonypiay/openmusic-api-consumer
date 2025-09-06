@@ -8,6 +8,6 @@ export default {
         port: process.env.SMTP_PORT,
         user: process.env.SMTP_USER,
         password: process.env.SMTP_PASSWORD,
-        from: process.env.SMTP_FROM,
+        secure: process.env.SMTP_SECURE ?? false,
     },
 }

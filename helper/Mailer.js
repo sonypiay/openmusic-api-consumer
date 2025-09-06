@@ -68,7 +68,6 @@ class Mailer {
         const transport = this.createTransport();
 
         const data = {
-            from: Configuration.smtp.from,
             to: this.getRecipient(),
             subject: this.getSubject(),
             text: this.getContent(true),
